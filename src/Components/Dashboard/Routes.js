@@ -60,9 +60,9 @@ if(!localStorage.getItem('token'))
   <li>
     <Link to="add_book"><span className="fa fa-add" style={{color:'#FFC30D'}}></span> Add Book</Link>
   </li>
-  <li>
+  {/* <li>
     <Link to="all_books"><span className="fa fa-book" style={{color:'#FFC30D'}}></span> All Books</Link>
-  </li>
+  </li> */}
   <li>
     <Link to="hide_books"><span className="fa fa-eye" style={{color:'#FFC30D'}}></span> Hide Books</Link>
   </li>
@@ -95,9 +95,9 @@ if(!localStorage.getItem('token'))
         <li className="nav-item">
             <Link className="nav-link" to='add_book' style={{color:'white'}}>Add Books</Link>
         </li>
-        <li className="nav-item">
+        {/* <li className="nav-item">
             <Link className="nav-link" to='all_books' style={{color:'white'}}>All Books</Link>
-        </li>
+        </li> */}
         <li className="nav-item">
             <Link className="nav-link" to='hide_books' style={{color:'white'}}>Hide Books</Link>
         </li>
@@ -122,9 +122,9 @@ if(!localStorage.getItem('token'))
   </div>
 </nav>
 <Routes>
-  <Route path="/" element={<Main/>} />
+  <Route path="/" element={<AllBooks/>} />
   <Route path="/add_book" key="books" element={<Books/>} />
-  <Route path="/all_books" key={location.key} element={<AllBooks/>} />
+  {/* <Route path="/all_books" key={location.key} element={<AllBooks/>} /> */}
   <Route path="/like_books" key={location.key} element={<LikeBooks/>} />
   <Route path="/hide_books" key={location.key} element={<HideBooks/>} />
   <Route path="/book_detail/:id" key={location.key} element={<BookDetails/>} />
