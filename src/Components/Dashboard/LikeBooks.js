@@ -77,7 +77,7 @@ function LikeBooks() {
                                     <h5 className="card-title" style={{color:'white'}}>{data1.bookData[0]?.BookTitle.substring(0, 25)}</h5>
                                     <p className="card-text">Book ISBN - {data1.bookData[0]?.BookISBN}</p>
                                     <p className="card-text">Published By - {data1.bookData[0]?.BookAuthor}</p>
-                                    <p className="card-text">Book Gerne - {data1.bookData[0]?.BookGenre}</p>
+                                    <p className="card-text">Book Genre - {data1.bookData[0]?.BookGenre}</p>
                                     <p className="card-text">Book Summary - {data1.bookData[0]?.BookSummary.substring(0,90)}{data1.bookData[0]?.BookSummary.length>90?'...':''}</p>
                                    
                                     <Link to={`/user_dashboard/book_detail/${data1?.bookData[0]?.BookISBN}`} className="btn btn-dark mr-1"><i className="fa-brands fa-readme"></i></Link>

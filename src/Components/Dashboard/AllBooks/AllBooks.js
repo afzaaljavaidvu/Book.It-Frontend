@@ -98,7 +98,7 @@ function AllBooks() {
                                     <h5 className="card-title" style={{color:'white'}}>{data.BookTitle.substring(0, 25)}</h5>
                                     <p className="card-text">Book ISBN - {data.BookISBN}</p>
                                     <p className="card-text">Published By - {data.BookAuthor}</p>
-                                    <p className="card-text">Book Gerne - {data.BookGenre}</p>
+                                    <p className="card-text">Book Genre - {data.BookGenre}</p>
                                     <p className="card-text">Book Summary - {data.BookSummary.substring(0,90)}{data.BookSummary.length>90?'...':''}</p>
                                     <Link to={`/user_dashboard/book_detail/${data.BookISBN}`} className="btn btn-dark mr-1"><i class="fa-brands fa-readme"></i></Link>
                                     <Link to={`/user_dashboard/edit_book/${data.BookISBN}`} className="btn btn-warning mr-1"><i className='fa fa-edit'></i></Link>
