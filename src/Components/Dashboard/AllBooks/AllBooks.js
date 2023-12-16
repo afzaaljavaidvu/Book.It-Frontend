@@ -4,6 +4,8 @@ import {Link} from 'react-router-dom';
 
 function AllBooks() {
   const [data1,setData]=useState([]);
+  const [hideCount,setHideCount]=useState(0);
+
   const [refresh,setRefresh]=useState(false);
         const addToLikeList = async (bookISBN) => {
             try {
@@ -75,6 +77,8 @@ function AllBooks() {
             .then(data => {
               console.log(data);
               setData(data);
+              console.log(data.filter(x=>x.hideList.length==0))
+              setHideCount(data.filter(x=>x.hideList.length==0));
             })
             .catch(error => console.error(error));
         }
@@ -88,7 +92,7 @@ function AllBooks() {
           <div className="row d-flex">
                   <div className="row">
                    {data1?.length>0?data1.map((data,index)=>(
-                        <div key={index} className='col-md-3 mb-4' style={{marginRight:data1.length==2?'90px':data1.length==3?'35px':'0px',backgroundColor:'#2F4049'}}>
+                        <div key={index} className='col-md-3 mb-4' style={{marginRight:hideCount.length==2?'115px':hideCount.length==3?'35px':'0px',backgroundColor:'#2F4049',display:data.hideList?.length>0?'none':'block'}}>
                             <div className="card me-3" style={{width:'320px',backgroundColor:'#445A65',color:'white'}}>
                                 <div className="card-body">
                                     <h5 className="card-title" style={{color:'white'}}>{data.BookTitle.substring(0, 25)}</h5>

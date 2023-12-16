@@ -48,14 +48,21 @@ function BookDetails() {
                     <>
                    <div className='justify-content-center' style={{color:'white'}}>
                     <div className="card" style={{width: '55rem',color:'white',backgroundColor:'#5A7887'}} >
-                    <div className="card-body">
-                    <h5 className="card-title" style={{color:'white'}}><b>Book Title:</b> {data[0].BookTitle}</h5>
-                    <h5 className="card-title" style={{color:'white'}}><b>Book ISBN:</b> {data[0].BookISBN}</h5>
-                    <h5 className="card-text" style={{color:'white'}}><b>Published By - </b>{data[0].BookAuthor}</h5>
-                    <h5 className="card-text" style={{color:'white'}}><b>Book Gerne - </b> {data[0].BookGenre}</h5>
-                    <h5 className="card-text" style={{color:'white'}}><b>Book Summary - </b> {data[0].BookSummary}</h5>
-                    <h5 className="card-text" style={{color:'white'}}><b>Book URL - </b> {data[0].BookLink.endsWith('.pdf')?<a target='_blank' href={data[0].BookLink} className='btn btn-success'><i class="fa-solid fa-file-pdf"></i></a>:<a target='_blank' href={data[0].BookLink} className='btn btn-success'><i class="fa-solid fa-globe"></i></a>} </h5>                  
+                    <div className='row'>
+                      <div className='col-md-8'>
+                        <div className="card-body">
+                        <h5 className="card-title" style={{color:'white'}}><b>Book Title:</b> {data[0].BookTitle}</h5>
+                        <h5 className="card-title" style={{color:'white'}}><b>Book ISBN:</b> {data[0].BookISBN}</h5>
+                        <h5 className="card-text" style={{color:'white'}}><b>Written By - </b>{data[0].BookAuthor}</h5>
+                        <h5 className="card-text" style={{color:'white'}}><b>Book Genre - </b> {data[0].BookGenre}</h5>
+                        <h5 className="card-text" style={{color:'white',textAlign:'justify'}}><b>Book Summary - </b> {data[0].BookSummary}</h5>
+                        <h5 className="card-text" style={{color:'white'}}><b>Book URL - </b> {data[0].BookLink.endsWith('.pdf')?<a target='_blank' href={data[0].BookLink} className='btn btn-success'><i class="fa-solid fa-file-pdf"></i></a>:<a target='_blank' href={data[0].BookLink} className='btn btn-success'><i class="fa-solid fa-globe"></i></a>} </h5>                  
+                        </div>
                       </div>
+                      <div className='col-md-4'>
+                        <img src="/images/main.jpeg" style={{width:'350px'}} alt='Image Main side of text'/>
+                      </div>
+                    </div>
                     </div>
                   <form onSubmit={PostComment} className='mt-2' style={{width: '55rem'}}>           
                     <div className="form-group">
