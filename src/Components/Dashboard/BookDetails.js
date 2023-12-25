@@ -1,13 +1,43 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import {useParams} from 'react-router-dom';
+import Loading from 'react-fullscreen-loading';
 
 function BookDetails() {
+  const [loading,setLoading]=useState(false);
+  const [emailRes,setEmailRes]=useState(null);
+  const [emailErrorRes,setEmailErrorRes]=useState(null);
   const [data,setData]=useState([]);
   const [comment,setComment]=useState("");
   const [responce,setResponce]=useState([]);
   const {id}=useParams();
-  const [refresh,setRefresh]=useState(false);        
+  const [refresh,setRefresh]=useState(false);    
+  const sendEmail=async ()=>{
+    setEmailRes(null);
+    setEmailErrorRes(null);
+    setLoading(true);
+    await axios.post(`${process.env.REACT_APP_API_BASE_URL}email/sendBookEmail`,{ id:id },
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'auth-Token':localStorage.getItem("token")
+            }
+          }
+        )
+        .then(res=>{
+          console.log("Response Data : ",res);
+          if(res.statusText=="OK"){
+            setEmailRes("Email sent successfully.");
+          }
+          setLoading(false);          
+        })
+        .catch(res=>{
+          console.log("Error Response Data : ",res);
+          setEmailErrorRes("500 Internal server error. Try again.");
+          setLoading(false);
+        })
+  }    
         const getData=async ()=>{
           const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}book/getBookById`,{ id:id },
           {
@@ -41,7 +71,6 @@ function BookDetails() {
         useEffect(()=>{
             getData();
         },[refresh])
-
        return (
         <>
                    {data?.length>0&&(
@@ -49,19 +78,22 @@ function BookDetails() {
                    <div className='justify-content-center' style={{color:'white'}}>
                     <div className="card" style={{width: '55rem',color:'white',backgroundColor:'#5A7887'}} >
                     <div className='row'>
-                      <div className='col-md-8'>
+                      <div className='col-md-12'>
                         <div className="card-body">
                         <h5 className="card-title" style={{color:'white'}}><b>Book Title:</b> {data[0].BookTitle}</h5>
+                        {data[0].BookImage?<img src={`${process.env.REACT_APP_API_BASE_URL}${data[0].BookImage}`} style={{width:'350px',marginBottom:'20px'}}/>:<img src="/images/main.jpeg" style={{width:'350px',marginBottom:'20px'}} alt='Image Main side of text'/>}                    
                         <h5 className="card-title" style={{color:'white'}}><b>Book ISBN:</b> {data[0].BookISBN}</h5>
                         <h5 className="card-text" style={{color:'white'}}><b>Written By - </b>{data[0].BookAuthor}</h5>
                         <h5 className="card-text" style={{color:'white'}}><b>Book Genre - </b> {data[0].BookGenre}</h5>
                         <h5 className="card-text" style={{color:'white',textAlign:'justify'}}><b>Book Summary - </b> {data[0].BookSummary}</h5>
-                        <h5 className="card-text" style={{color:'white'}}><b>Book URL - </b> {data[0].BookLink.endsWith('.pdf')?<a target='_blank' href={data[0].BookLink} className='btn btn-success'><i class="fa-solid fa-file-pdf"></i></a>:<a target='_blank' href={data[0].BookLink} className='btn btn-success'><i class="fa-solid fa-globe"></i></a>} </h5>                  
+                        <h5 className="card-text" style={{color:'white'}}><b>Book URL - </b> {data[0].BookLink.endsWith('.pdf')?<a target='_blank' href={data[0].BookLink} className='btn btn-success'><i class="fa-solid fa-file-pdf"></i></a>:<a target='_blank' href={data[0].BookLink} className='btn btn-success'><i class="fa-solid fa-globe"></i></a>} </h5> 
+                        <h5 className="card-text" style={{color:'white'}}><b>Share Book - </b> <button className='btn btn-success' onClick={()=>sendEmail()}><i class="fa-solid fa-envelope"></i></button> </h5>                
+                        {emailRes?<p className="mt-2 text-center text-white">{emailRes}</p>:''}
+                        {emailErrorRes?<p className="mt-2 text-center text-white">{emailErrorRes}</p>:''}
+                        
                         </div>
                       </div>
-                      <div className='col-md-4'>
-                        <img src="/images/main.jpeg" style={{width:'350px'}} alt='Image Main side of text'/>
-                      </div>
+                     
                     </div>
                     </div>
                   <form onSubmit={PostComment} className='mt-2' style={{width: '55rem'}}>           
@@ -88,6 +120,7 @@ function BookDetails() {
                   </div>
 </>
   )}
+  <Loading loading={loading} loaderColor="white" />
   </>
     )
 }

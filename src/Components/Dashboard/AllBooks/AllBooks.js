@@ -96,16 +96,17 @@ function AllBooks() {
                             <div className="card me-3" style={{width:'320px',backgroundColor:'#445A65',color:'white'}}>
                                 <div className="card-body">
                                     <h5 className="card-title" style={{color:'white'}}>{data.BookTitle.substring(0, 25)}</h5>
+                                    {data.BookImage?<img src={`${process.env.REACT_APP_API_BASE_URL}${data.BookImage}`} style={{width:'280px'}}/>:''}
                                     <p className="card-text">Book ISBN - {data.BookISBN}</p>
                                     <p className="card-text">Published By - {data.BookAuthor}</p>
                                     <p className="card-text">Book Genre - {data.BookGenre}</p>
                                     <p className="card-text">Book Summary - {data.BookSummary.substring(0,90)}{data.BookSummary.length>90?'...':''}</p>
-                                    <Link to={`/user_dashboard/book_detail/${data.BookISBN}`} className="btn btn-dark mr-1"><i class="fa-brands fa-readme"></i></Link>
+                                    <Link to={`/user_dashboard/book_detail/${data.BookISBN}`} className="btn btn-dark mr-1"><i className="fa-brands fa-readme"></i></Link>
                                     <Link to={`/user_dashboard/edit_book/${data.BookISBN}`} className="btn btn-warning mr-1"><i className='fa fa-edit'></i></Link>
                                     <button title={(data.likeList?.length>0? 'Liked' : 'Press to like')} onClick={()=>addToLikeList(data.BookISBN)} className="btn btn-success mr-1"><i className={(data.likeList?.length>0? 'fa' : 'fa-regular') + " fa-heart"}></i></button>
                                     <button title={(data.hideList?.length>0? 'Hidden' : 'Press to Hide')} onClick={()=>addToHideList(data.BookISBN)} className="btn btn-info mr-1"><i className={"fa-regular "+(data.hideList?.length>0 ? 'fa-eye-slash' : 'fa-eye')}></i></button>
                                     <button title='Press to Delete' onClick={()=>deleteBook(data.BookISBN)} className="btn btn-danger mr-1"><i className="fa fa-trash"></i></button>
-                                    {data?.BookLink?.endsWith('.pdf')?<a target='_blank' href={data.BookLink} className='btn btn-success'><i class="fa-solid fa-file-pdf"></i></a>:data.BookLink!=""?<a target='_blank' href={data.BookLink} className='btn btn-success'><i class="fa-solid fa-globe"></i></a>:''}
+                                    {data?.BookLink?.endsWith('.pdf')?<a target='_blank' href={data.BookLink} className='btn btn-success'><i className="fa-solid fa-file-pdf"></i></a>:data.BookLink!=""?<a target='_blank' href={data.BookLink} className='btn btn-success'><i className="fa-solid fa-globe"></i></a>:''}
                                 </div>
                             </div>
                         </div>

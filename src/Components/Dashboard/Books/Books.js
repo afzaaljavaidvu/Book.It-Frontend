@@ -1,41 +1,63 @@
 import React, { useState } from 'react'
 import { useFormik } from "formik";
 import {Schema} from './Schema';
+import axios from 'axios';
 
 function Books() {
   const [res,setRes]=useState([]);
+  const [img,setImg]=useState('');
     const initialValues = {
       BookISBN: "",
       BookTitle: "",
       BookAuthor: "",
       BookGenre: "",
       BookSummary:"",
+      photo:"",
       BookLink:"",
       UserName:""
     };
-    const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
+    const { values, errors, touched, handleBlur, handleChange,setFieldValue, handleSubmit } =
     useFormik({
       initialValues,
       validationSchema: Schema,
-      onSubmit: (values, action)=> {
-        const options = {
-          method: 'POST',
+      onSubmit:async (values, action)=> {
+        console.log(values);
+        const formData = new FormData();
+        for (let value in values) {
+          formData.append(value, values[value]);
+        }
+        console.log(formData);
+        await axios.post(`${process.env.REACT_APP_API_BASE_URL}book/addBook`, formData,{
           headers: {
-            'Content-Type': 'application/json',
-            'auth-Token':localStorage.getItem("token")
-          },
-          body: JSON.stringify(values)
-        };
-        fetch(`${process.env.REACT_APP_API_BASE_URL}book/addBook`, options)
-          .then(response => response.json())
+                 'auth-Token':localStorage.getItem("token")
+               }
+        })
           .then(data => {
-            console.log(data);
-            setRes(data);
-            if(data.success){
+            console.log(data.data);
+            setRes(data.data);
+            if(data.data.success){
               action.resetForm();
             }
           })
           .catch(error => console.error(error));
+        // const options = {
+        //   method: 'POST',
+        //   headers: {
+        //     'Content-Type': 'application/json',
+        //     'auth-Token':localStorage.getItem("token")
+        //   },
+        //   body: JSON.stringify(values)
+        // };
+        // fetch(`${process.env.REACT_APP_API_BASE_URL}book/addBookWithImage`, options)
+        //   .then(response => response.json())
+        //   .then(data => {
+        //     console.log(data);
+        //     setRes(data);
+        //     if(data.success){
+        //       action.resetForm();
+        //     }
+        //   })
+        //   .catch(error => console.error(error));
       },
     })
     return (
@@ -46,7 +68,7 @@ function Books() {
                   <div className="row justify-content-center">
                     <div className="col-md-10 col-lg-6 col-xl-5">
                       <p className="text-center h1 fw-bold" style={{color:'white'}}>Add Book</p>
-                      <form onSubmit={handleSubmit}>
+                      <form onSubmit={handleSubmit} encType='multipart/form-data'>
       
                         <div className="d-flex flex-row align-items-center">
                           <i className="fas fas-user fa-lg me-3 fa-fw"></i>
@@ -137,7 +159,22 @@ function Books() {
                               <p className="text-danger">{errors.BookSummary}</p>
                             ) : null}
                           </div>
-                        </div>   
+                        </div> 
+                        <div className="d-flex flex-row align-items-center">
+                          <i className="fas fas-envelope fa-lg me-3 fa-fw"></i>
+                          <div className="form-outline flex-fill mb-0">
+                           <input 
+                            type="file" 
+                            name="photo"
+                            onChange={(e) =>
+                              setFieldValue('photo', e.currentTarget.files[0])
+                            }
+                            className="form-control" 
+                            />
+                            <label className="form-label" style={{color:'white'}}>Book Image if any. </label>
+                            {img?<img style={{width:'450px',marginBottom:'10px'}} src={URL.createObjectURL(img)}/>:''}              
+                          </div>
+                        </div>  
                         <div className="d-flex flex-row align-items-center">
                           <i className="fas fas-envelope fa-lg me-3 fa-fw"></i>
                           <div className="form-outline flex-fill mb-0">
