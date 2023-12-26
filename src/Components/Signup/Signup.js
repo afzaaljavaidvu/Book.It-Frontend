@@ -2,7 +2,9 @@ import React, { useState } from 'react'
 import { useFormik } from "formik";
 import {Schema} from './Schema';
 import { Link } from 'react-router-dom';
+import { jwtDecode } from "jwt-decode";
 
+import { GoogleOAuthProvider,GoogleLogin } from '@react-oauth/google';
 function Signup() {
   const [res,setRes]=useState([]);
     const initialValues = {
@@ -181,6 +183,17 @@ function Signup() {
                         <div className="d-flex justify-content-center">
                           <button className="btn btn-dark btn-lg" type="submit">Register</button>
                         </div>
+                        <GoogleOAuthProvider clientId="320925187118-6s9dp26uvcftpud2qdhhjpio86eatvct.apps.googleusercontent.com">
+                          <GoogleLogin
+                            onSuccess={credentialResponse => {
+                              credentialResponse=jwtDecode(credentialResponse.credential)
+                              console.log(credentialResponse);
+                            }}
+                            onError={() => {
+                              console.log('Login Failed');
+                            }}
+                          />
+                        </GoogleOAuthProvider>
                         <div className="d-flex justify-content-center mt-2 mb-lg-4">
                           <p>Already have an account? <Link to='/login' style={{color:'#202B32'}}>Login</Link></p>
                         </div>

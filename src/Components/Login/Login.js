@@ -2,7 +2,8 @@ import React,{useState} from 'react'
 import { useFormik } from "formik";
 import {Schema} from './Schema';
 import { Link,useNavigate } from 'react-router-dom';
-
+import { GoogleLogin,GoogleOAuthProvider,googleLogout } from '@react-oauth/google';
+import { jwtDecode } from "jwt-decode";
 function Login() {
     const [res,setRes]=useState([]);
     const initialValues = {
@@ -89,10 +90,23 @@ function Login() {
                         <div className="d-flex justify-content-center">
                           <button className="btn btn-dark btn-lg" type="submit">Login</button>
                         </div>
+                        <GoogleOAuthProvider clientId="320925187118-6s9dp26uvcftpud2qdhhjpio86eatvct.apps.googleusercontent.com">
+                          <GoogleLogin
+                          text='continue_with'
+                            onSuccess={credentialResponse => {
+                              credentialResponse=jwtDecode(credentialResponse.credential)
+                              console.log(credentialResponse);
+                            }}
+                            onError={() => {
+                              console.log('Login Failed');
+                            }}
+                          />
+                        </GoogleOAuthProvider>
                         <div className="d-flex justify-content-center mt-2 mx-4">
                           <p>Not have an account? <Link to='/'  style={{color:'#202B32'}}>Sign Up</Link></p>
                         </div>
                       </form>
+                        
                       {res?.status===false? <p className="text-danger text-center">{res?.message}</p>:''}
                  
                     </div>
