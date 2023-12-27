@@ -3,6 +3,10 @@ import { useFormik } from "formik";
 import {Schema} from './Schema';
 import { Link,useNavigate } from 'react-router-dom';
 import { GoogleLogin,GoogleOAuthProvider,googleLogout } from '@react-oauth/google';
+import FacebookLogin from '@greatsumini/react-facebook-login';
+import {LoginSocialFacebook} from 'reactjs-social-login';
+import {  FacebookLoginButton} from 'react-social-login-buttons';
+
 import { jwtDecode } from "jwt-decode";
 function Login() {
     const [res,setRes]=useState([]);
@@ -102,6 +106,26 @@ function Login() {
                             }}
                           />
                         </GoogleOAuthProvider>
+                        <LoginSocialFacebook
+                            appId='1519078545582331'
+                            fieldsProfile={
+                              'id,first_name,last_name,middle_name,name,name_format,picture,short_name,email,gender'
+                            }
+                            onLoginStart={(res)=>{
+                              console.log(res)
+                            }}
+                            onLogoutSuccess={(res)=>{
+                              console.log(res)
+                            }}
+                            onResolve={(res)=>{
+                              console.log(res)
+                            }}
+                            onReject={(res)=>{
+                              console.log(res)
+                            }}
+                          >
+                            <FacebookLoginButton />
+                          </LoginSocialFacebook>
                         <div className="d-flex justify-content-center mt-2 mx-4">
                           <p>Not have an account? <Link to='/'  style={{color:'#202B32'}}>Sign Up</Link></p>
                         </div>
