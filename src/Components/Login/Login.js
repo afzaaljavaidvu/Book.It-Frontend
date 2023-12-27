@@ -107,7 +107,7 @@ function Login() {
                           />
                         </GoogleOAuthProvider>
                         <LoginSocialFacebook
-                            appId='1519078545582331'
+                            appId='279290348101061'
                             fieldsProfile={
                               'id,first_name,last_name,middle_name,name,name_format,picture,short_name,email,gender'
                             }
@@ -126,6 +126,18 @@ function Login() {
                           >
                             <FacebookLoginButton />
                           </LoginSocialFacebook>
+                          <FacebookLogin
+                            appId="279290348101061"
+                            onSuccess={(response) => {
+                              console.log('Login Success!', response);
+                            }}
+                            onFail={(error) => {
+                              console.log('Login Failed!', error);
+                            }}
+                            onProfileSuccess={(response) => {
+                              console.log('Get Profile Success!', response);
+                            }}
+                          />
                         <div className="d-flex justify-content-center mt-2 mx-4">
                           <p>Not have an account? <Link to='/'  style={{color:'#202B32'}}>Sign Up</Link></p>
                         </div>
